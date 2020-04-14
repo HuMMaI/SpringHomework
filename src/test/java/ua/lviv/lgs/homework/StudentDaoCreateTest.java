@@ -29,11 +29,6 @@ public class StudentDaoCreateTest {
         studentDao.create(student);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void itStudentCreatingWithNullPointerException(){
-        studentDao.create(null);
-    }
-
     @After
     public void afterTest(){
         studentDao = null;
