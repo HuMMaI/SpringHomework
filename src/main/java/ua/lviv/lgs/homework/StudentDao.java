@@ -8,6 +8,10 @@ public class StudentDao implements CRUD<Student> {
 
     @Override
     public Student create(Student student) {
+        if (student == null){
+            throw new NullPointerException("Student can not be created!");
+        }
+
         boolean result = students.stream()
                 .map(Student::getId)
                 .anyMatch(id -> id == student.getId());
