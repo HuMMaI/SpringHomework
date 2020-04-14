@@ -2,33 +2,32 @@ package ua.lviv.lgs.homework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentDao implements CRUD<Student> {
     private List<Student> students = new ArrayList<>();
 
     @Override
     public Student create(Student student) {
-        boolean result = students.stream()
+        Optional<Integer> result = students.stream()
                 .map(Student::getId)
-                .anyMatch(id -> id == student.getId());
+                .filter(id -> id == student.getId())
+                .findAny();
 
-        if (!result){
-            students.add(student);
-        } else {
+        if (result.isPresent()){
             throw new RuntimeException("Student with that id already exists!");
+        } else {
+            students.add(student);
         }
 
         return student;
     }
 
     @Override
-    public Student read(int id) {
-        Student student = students.stream()
+    public Optional<Student> read(int id) {
+        return students.stream()
                 .filter(s -> s.getId() == id)
-                .findFirst()
-                .orElse(null);
-
-        return student;
+                .findFirst();
     }
 
     @Override
@@ -38,9 +37,9 @@ public class StudentDao implements CRUD<Student> {
 
     @Override
     public void update(int id, Student student) {
-        Student read = read(id);
+        Optional<Student> read = read(id);
 
-        if (read == null){
+        if (!read.isPresent()){
             throw new RuntimeException("Student with such id not found!");
         }
 
@@ -50,9 +49,9 @@ public class StudentDao implements CRUD<Student> {
 
     @Override
     public void delete(int id) {
-        Student read = read(id);
+        Optional<Student> read = read(id);
 
-        if (read == null){
+        if (!read.isPresent()){
             throw new RuntimeException("Student with such id not found!");
         }
 

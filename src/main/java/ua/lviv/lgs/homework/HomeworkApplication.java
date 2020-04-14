@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class HomeworkApplication {
@@ -26,8 +27,8 @@ public class HomeworkApplication {
 		studentDao.create(student5);
 
 		System.out.println("=========================================================");
-		Student read = studentDao.read(3);
-		System.out.println(read);
+		Optional<Student> read = studentDao.read(3);
+		read.ifPresent(System.out::println);
 		System.out.println("=========================================================");
 
 		System.out.println("=========================================================");
@@ -38,8 +39,8 @@ public class HomeworkApplication {
 		System.out.println("=========================================================");
 		Student student6 = new Student(1, "Student6", 21);
 		studentDao.update(1, student6);
-		Student read2 = studentDao.read(1);
-		System.out.println(read2);
+		Optional<Student> read2 = studentDao.read(1);
+		read2.ifPresent(System.out::println);
 		System.out.println("=========================================================");
 
 		System.out.println("=========================================================");
