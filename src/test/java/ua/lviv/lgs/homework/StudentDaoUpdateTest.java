@@ -23,7 +23,7 @@ public class StudentDaoUpdateTest {
 
         studentDao.update(1, student2);
 
-        Student actual = studentDao.read(1);
+        Student actual = studentDao.read(1).get();
         Student expected = student2;
 
         Assert.assertEquals(expected, actual);

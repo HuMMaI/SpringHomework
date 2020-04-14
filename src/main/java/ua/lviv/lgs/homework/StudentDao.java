@@ -9,10 +9,6 @@ public class StudentDao implements CRUD<Student> {
 
     @Override
     public Student create(Student student) {
-        if (student == null){
-            throw new NullPointerException("Student can not be created!");
-        }
-
         Optional<Integer> result = students.stream()
                 .map(Student::getId)
                 .filter(id -> id == student.getId())
@@ -28,13 +24,10 @@ public class StudentDao implements CRUD<Student> {
     }
 
     @Override
-    public Student read(int id) {
-        Student student = students.stream()
+    public Optional<Student> read(int id) {
+        return students.stream()
                 .filter(s -> s.getId() == id)
-                .findFirst()
-                .orElse(null);
-
-        return student;
+                .findFirst();
     }
 
     @Override
@@ -44,9 +37,9 @@ public class StudentDao implements CRUD<Student> {
 
     @Override
     public void update(int id, Student student) {
-        Student read = read(id);
+        Optional<Student> read = read(id);
 
-        if (read == null){
+        if (!read.isPresent()){
             throw new RuntimeException("Student with such id not found!");
         }
 
@@ -56,9 +49,9 @@ public class StudentDao implements CRUD<Student> {
 
     @Override
     public void delete(int id) {
-        Student read = read(id);
+        Optional<Student> read = read(id);
 
-        if (read == null){
+        if (!read.isPresent()){
             throw new RuntimeException("Student with such id not found!");
         }
 

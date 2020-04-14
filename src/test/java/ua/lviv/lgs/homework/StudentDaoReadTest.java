@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentDaoReadTest {
     private StudentDao studentDao;
@@ -22,17 +23,17 @@ public class StudentDaoReadTest {
     public void itStudentReading(){
         studentDao.create(student);
 
-        Student actual = studentDao.read(1);
+        Optional<Student> actual = studentDao.read(1);
         Student expected = student;
 
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(expected, actual.get());
     }
 
     @Test
-    public void itStudentReadingWithNull(){
-        Student actual = studentDao.read(2);
+    public void itStudentReadingWithEmpty(){
+        Optional<Student> actual = studentDao.read(2);
 
-        Assert.assertNull(actual);
+        Assert.assertEquals(Optional.empty(), actual);
     }
 
     @Test

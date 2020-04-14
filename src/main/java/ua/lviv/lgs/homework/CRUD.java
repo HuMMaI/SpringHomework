@@ -1,11 +1,12 @@
 package ua.lviv.lgs.homework;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CRUD<T> {
     T create(T t);
 
-    T read(int id);
+    Optional<T> read(int id);
 
     List<T> readAll();
 
