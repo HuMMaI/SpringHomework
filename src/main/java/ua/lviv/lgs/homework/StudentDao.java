@@ -2,6 +2,7 @@ package ua.lviv.lgs.homework;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentDao implements CRUD<Student> {
     private List<Student> students = new ArrayList<>();
@@ -12,14 +13,15 @@ public class StudentDao implements CRUD<Student> {
             throw new NullPointerException("Student can not be created!");
         }
 
-        boolean result = students.stream()
+        Optional<Integer> result = students.stream()
                 .map(Student::getId)
-                .anyMatch(id -> id == student.getId());
+                .filter(id -> id == student.getId())
+                .findAny();
 
-        if (!result){
-            students.add(student);
-        } else {
+        if (result.isPresent()){
             throw new RuntimeException("Student with that id already exists!");
+        } else {
+            students.add(student);
         }
 
         return student;
